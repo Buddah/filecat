@@ -58,16 +58,28 @@ fn is_output_file(entry: &DirEntry, output_path: &str) -> bool {
     entry.path() == Path::new(output_path)
 }
 
-// TODO: case sensitive matching option
+fn is_directory(entry: &DirEntry) -> bool {
+    entry.file_type().is_dir()
+}
+
 fn filename_matches_pattern(entry: &DirEntry, options: &ArgMatches) -> bool {
     if !options.is_present("PATTERN") {
         true
     } else {
-        let regex = Regex::new(options.value_of("PATTERN").unwrap())
-            .expect("Failed to parse pattern as regex");
-
+        let regex = get_regex(options);
         filename_meets_condition(entry, |name| regex.is_match(name)) || is_directory(entry)
     }
+}
+
+fn get_regex(options: &ArgMatches) -> Regex {
+    let input = options.value_of("PATTERN").unwrap();
+    let mut pattern_str = String::from(input);
+
+    if options.is_present("CASE INSENSITIVE") {
+        pattern_str = String::from("(?i)") + input;
+    }
+    
+    Regex::new(&pattern_str).expect("Failed to parse pattern as regex")
 }
 
 fn filename_meets_condition<F>(entry: &DirEntry, predicate: F) -> bool
@@ -77,10 +89,6 @@ fn filename_meets_condition<F>(entry: &DirEntry, predicate: F) -> bool
          .to_str()
          .map(|name| predicate(name))
          .unwrap_or(false)
-}
-
-fn is_directory(entry: &DirEntry) -> bool {
-    entry.file_type().is_dir()
 }
 
 #[cfg(test)]
