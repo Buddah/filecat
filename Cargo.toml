@@ -5,4 +5,5 @@ authors = ["Charlie Saunders <charlie@roirevolution.com>"]
 
 [dependencies]
 clap = "~2.26.0"
+walkdir = "1"
 filtered_files = { path = "filtered_files" }
