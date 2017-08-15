@@ -28,9 +28,14 @@ fn main() {
       .short("i")
       .long("ignore-case"))
     .arg(Arg::with_name("RECURSIVE")
+      .help("Find matching files recursively")
       .short("r")
-      .long("recursive")
-      .help("Find matching files recursively"))
+      .long("recursive"))
+    .arg(Arg::with_name("NUM HEADER LINES")
+      .help("The number of header lines. This number of lines will be skipped for each file after the first. Defaults to 0.")
+      .short("h")
+      .long("header-lines")
+      .takes_value(true))
     .get_matches();
 
   file_cat::run(matches);

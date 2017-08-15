@@ -8,7 +8,7 @@ Base features
 - [x] exclude files matching pattern
 - [x] case insensitive pattern matching
 - [x] combine files matching pattern
-- [ ] get header line(s) and skip for files after the first
+- [x] get header line(s) and skip for files after the first
   - assumes all files have the same headers
 
 Possible features
