@@ -36,6 +36,10 @@ fn main() {
       .short("h")
       .long("header-lines")
       .takes_value(true))
+    .arg(Arg::with_name("VERBOSE")
+      .help("Enables verbose mode, which prints the input file names")
+      .short("v")
+      .long("verbose"))
     .get_matches();
 
   file_cat::run(matches);

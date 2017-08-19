@@ -16,6 +16,9 @@ pub fn run(options: ArgMatches) {
     let mut output_writer = output_writer(&output_path);
 
     for (index, item) in file_list(&options).iter().enumerate() {
+        if options.is_present("VERBOSE") {
+            print_file_info(&index, &item);
+        }
         match file_reader(&item) {
             Err(e) => eprintln!("{}", e),
             Ok(reader) => {
@@ -62,4 +65,8 @@ fn lines_to_skip(file_index: usize, options: &ArgMatches) -> usize {
         0 => 0,
         _ => input_lines_to_skip
     }
+}
+
+fn print_file_info(item_num: &usize, file: &DirEntry) {
+    println!("{}: {}", item_num, file.path().to_str().unwrap());
 }
