@@ -2,3 +2,5 @@
 **/*.rs.bk
 Cargo.lock
 *.fmt
+.vscode
+/test_files/
